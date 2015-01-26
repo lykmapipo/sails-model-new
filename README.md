@@ -10,16 +10,16 @@ and `destroy()` are maintained and you can call them.
 
 It expects arguments in the same format as `Model.create`.
 
-##Usage
+##Setup
 
-- Including it into all model by using `models` config by adding
+- Including it into all model(s) by adding below config 
+in the `models.js` found in sails application config directory.
 
 ```js
 'new': require('sails-model-new');
 ```
-	in the `models.js` found in sails application config directory.
 
-- Or including it into specific model static as shown below
+- Or including it into specific model as static attribute as shown below
 
 ```js
 module.exports = {
@@ -35,7 +35,10 @@ module.exports = {
 };
 ```
 
-##Example
+##Usage
+After you have finish setup, all model(s) or specific model(s) will 
+have `new` static method associate with them and you can use it as 
+show below
 
 ```js
 //create a new user instance
