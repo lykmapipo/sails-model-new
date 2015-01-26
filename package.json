@@ -1,0 +1,31 @@
+{
+    "name": "sails-model-new",
+    "version": "0.1.0",
+    "description": "Initialize new sails model instance while maintain the current scope",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lykmapipo/sails-model-new.git"
+    },
+    "keywords": [
+        "sails",
+        "model",
+        "instance",
+        "new",
+        "build",
+        "initialize"
+    ],
+    "author": "Lally Elias",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/lykmapipo/sails-model-new/issues"
+    },
+    "homepage": "https://github.com/lykmapipo/sails-model-new",
+    "contributors": [{
+        "name": "lykmapipo",
+        "github": "https://github.com/lykmapipo"
+    }]
+}
