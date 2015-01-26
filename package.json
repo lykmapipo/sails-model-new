@@ -4,7 +4,7 @@
     "description": "Initialize new sails model instance while maintain the current scope",
     "main": "index.js",
     "scripts": {
-        "test": "mocha"
+        "test": "./node_modules/.bin/mocha --timeout 10000"
     },
     "repository": {
         "type": "git",
@@ -27,5 +27,12 @@
     "contributors": [{
         "name": "lykmapipo",
         "github": "https://github.com/lykmapipo"
-    }]
+    }],
+    "devDependencies": {
+        "chai": "^1.10.0",
+        "faker": "^2.1.2",
+        "mocha": "^2.1.0",
+        "sails": "^0.10.5",
+        "sails-disk": "^0.10.7"
+    }
 }

@@ -10,20 +10,36 @@ and `destroy` are maintained and you can call them.
 
 It expects arguments in the same format as `Model.create`.
 
-##Usage
+##Example
 
 ```js
 //create a new user instance
 user =  User.new(userHash);
 
 //save user
-user.save(function(error,result){
-	if(error){
-		console.log(error);
-	}
-	else{
-		//result is the persisted instance of user
-		console.log(result)
-	}
-});
+user
+	.save(function(error,result){
+		if(error){
+			console.log(error);
+		}
+		else{
+			//result is the persisted instance of user
+			console.log(result)
+		}
+	});
 ```
+
+##Testing
+
+* Clone this repository
+
+* Install all development dependencies
+
+```sh
+$ npm install
+```
+* Then run test
+
+```sh
+$ npm test
+``` 
