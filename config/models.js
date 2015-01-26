@@ -8,8 +8,10 @@
  * For more info on Sails models, see:
  * http://sailsjs.org/#/documentation/concepts/ORM
  */
-
+var path = require('path');
 module.exports.models = {
+
+    'new': require(path.join(__dirname, '..', 'index'))
 
     /***************************************************************************
      *                                                                          *
