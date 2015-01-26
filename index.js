@@ -24,9 +24,9 @@ module.exports = function(attributes) {
         if (this.id) {
             if (!callback) {
                 //return promise
-                return oldSave();
+                return oldSave.call(this);
             } else {
-                oldSave(callback);
+                oldSave.call(this, callback);
             }
         } else {
             //create new instance using Collection create

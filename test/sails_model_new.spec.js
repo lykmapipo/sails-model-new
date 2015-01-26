@@ -96,4 +96,34 @@ describe('Model#new', function() {
                 done(error);
             });
     });
+
+
+    it('should be able to update saved model', function(done) {
+        var username = faker.internet.userName();
+        var email = faker.internet.email();
+
+        var instance = User.new({
+            username: username,
+            email: email
+        });
+
+        instance
+            .save(function(error, user) {
+                if (error) {
+                    done(error);
+                } else {
+                    user.username = faker.internet.userName();
+
+                    user
+                        .save(function(error, nextUser) {
+                            if (error) {
+                                done(error);
+                            } else {
+                                expect(nextUser.updatedAt).to.not.be.null;
+                                done();
+                            }
+                        });
+                }
+            });
+    });
 });
