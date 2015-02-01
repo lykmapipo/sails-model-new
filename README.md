@@ -1,5 +1,7 @@
 sails-model-new
 ================
+[![Build Status](https://travis-ci.org/lykmapipo/sails-model-new.svg?branch=master)](https://travis-ci.org/lykmapipo/sails-model-new)
+
 Initializes new sails model instance while maintaining the current scope.
 
 It extend sails model with class/static `new` method which will create 
