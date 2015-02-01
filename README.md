@@ -10,7 +10,7 @@ and `destroy()` are maintained and you can call them.
 
 It expects arguments in the same format as `Model.create`.
 
-##Setup
+## Setup
 
 - Including it into all model(s) by adding below config 
 in the `models.js` found in sails application config directory.
@@ -35,7 +35,7 @@ module.exports = {
 };
 ```
 
-##Usage
+## Usage
 After you have finish setup, all model(s) or specific model(s) will 
 have `new` static method associate with them and you can use it as 
 show below
@@ -70,7 +70,7 @@ user
     });
 ```
 
-##Testing
+## Testing
 
 * Clone this repository
 
@@ -85,12 +85,12 @@ $ npm install
 $ npm test
 ```
 
-##Contribute
+## Contribute
 
 Fork this repo and push in your ideas. 
 Do not forget to add a bit of test(s) of what value you adding.
 
-##Licence
+## Licence
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
