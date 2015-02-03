@@ -1,15 +1,21 @@
 /**
  * @description create new sails model instance without persisting it
- * @param  {Object} attributes instance attributes to be set
+ * @param  {Object} attributes model instance attributes to be set into new model
  * @return {Object}            a new instance of sails model
  */
 module.exports = function(attributes) {
     var instance;
+
+    //reference current collection
+    //where this method is added
     var Collection = this;
+
+    //reference model associated 
+    //with this collection
     var Model = this._model;
 
     //set any attributes provided
-    //else create empty new instance
+    //else create new empty instance
     if (attributes) {
         instance = new Model(attributes);
     } else {
@@ -19,11 +25,15 @@ module.exports = function(attributes) {
     //monkey patch model save
     var oldSave = instance.save;
 
+    //in newSave
+    //this is binded to the
+    //context of the instance
     var newSave = function(callback) {
-        //if instance have been created already
+        //is this instance already persisted
         if (this.id) {
+            //if we are not using nodejs callback style
+            //return promise
             if (!callback) {
-                //return promise
                 return oldSave.call(this);
             } else {
                 oldSave.call(this, callback);

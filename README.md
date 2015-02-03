@@ -1,33 +1,50 @@
 sails-model-new
 ================
+
 [![Build Status](https://travis-ci.org/lykmapipo/sails-model-new.svg?branch=master)](https://travis-ci.org/lykmapipo/sails-model-new)
 
 [![Tips](https://img.shields.io/gratipay/lykmapipo.svg)](https://gratipay.com/lykmapipo/)
 
 [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/lykmapipo/)
 
-Initializes new sails model instance while maintaining the current scope.
+It initializes new sails model instance while maintaining the current scope. It extend sails model with class/static `new` method which will create a new model instance without persist it.
 
-It extend sails model with class/static `new` method which will create 
-a new model instance without persist it.
+All model instance methods such as : 
 
-All model instance methods such as `validate()`,`toJSON()` 
-and `destroy()` are maintained and you can call them.
+- `[validate](http://sailsjs.org/#/documentation/reference/waterline/records/validate.html)`
 
-It expects arguments in the same format as `Model.create`.
+- `[save()](http://sailsjs.org/#/documentation/reference/waterline/records/save.html)`
+
+- `[toJSON()](http://sailsjs.org/#/documentation/reference/waterline/records/toJSON.html)`
+
+- `[toObject()](http://sailsjs.org/#/documentation/reference/waterline/records/toObject.html)`
+
+- `[destroy()](http://sailsjs.org/#/documentation/reference/waterline/models/destroy.html)` 
+
+are maintained and you can call them. It expects `arguments` in the same format as `Model.create`.
+
+## Installation
+```sh
+npm install --save sails-model-new
+```
 
 ## Setup
 
-- Including it into all model(s) by adding below config 
-in the `models.js` found in sails application config directory.
-
+### In all models
+Including `sails-model-new` into all sails application model(s) by adding below config in the `models.js` found in sails application config directory.
 ```js
+//in config/models.js
+//add a key
+
 'new': require('sails-model-new');
 ```
 
-- Or including it into specific model as static attribute as shown below
-
+### Specific model only
+Including `sails-model-new` into specific model as static attribute as shown below.
 ```js
+//in your specific model
+//found in api/models/modelName.js
+
 module.exports = {
     attributes: {
         username: {
@@ -37,6 +54,7 @@ module.exports = {
             type: 'email'
         }
     },
+    //add new in static scope of the model
     'new': require('sails-model-new')
 };
 ```
@@ -44,8 +62,7 @@ module.exports = {
 ## Usage
 After you have finish setup, all model(s) or specific model(s) will 
 have `new` static method associate with them and you can use it as 
-show below
-
+show below.
 ```js
 //create a new user instance
 var user =  User.new(attributes);
