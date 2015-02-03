@@ -1,6 +1,6 @@
 {
     "name": "sails-model-new",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "Initialize new sails model instance while maintain the current scope",
     "main": "index.js",
     "scripts": {
