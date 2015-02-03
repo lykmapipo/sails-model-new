@@ -2,7 +2,7 @@ sails-model-new
 ================
 [![Build Status](https://travis-ci.org/lykmapipo/sails-model-new.svg?branch=master)](https://travis-ci.org/lykmapipo/sails-model-new)
 
-[![Tips](https://img.shields.io/gratipay/lykmapipo.svg)]
+[![Tips](https://img.shields.io/gratipay/lykmapipo.svg)](https://gratipay.com/lykmapipo/)
 
 [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/lykmapipo/)
 
