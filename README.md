@@ -2,6 +2,8 @@ sails-model-new
 ================
 [![Build Status](https://travis-ci.org/lykmapipo/sails-model-new.svg?branch=master)](https://travis-ci.org/lykmapipo/sails-model-new)
 
+<img src="//img.shields.io/gratipay/lykmapipo.svg">
+
 [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/lykmapipo/)
 
 Initializes new sails model instance while maintaining the current scope.
