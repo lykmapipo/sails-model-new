@@ -11,7 +11,7 @@ It initializes new sails model instance while maintaining the current scope. It 
 
 All model instance methods such as : 
 
-- [validate](http://sailsjs.org/#/documentation/reference/waterline/records/validate.html)
+- [validate()](http://sailsjs.org/#/documentation/reference/waterline/records/validate.html)
 
 - [save()](http://sailsjs.org/#/documentation/reference/waterline/records/save.html)
 
