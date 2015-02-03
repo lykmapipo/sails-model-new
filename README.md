@@ -34,8 +34,7 @@ $ npm install --save sails-model-new
 Including `sails-model-new` into all sails application model(s) by adding below config in the `models.js` found in sails application config directory.
 ```js
 //in config/models.js
-//add a key
-
+//add 
 'new': require('sails-model-new');
 ```
 
