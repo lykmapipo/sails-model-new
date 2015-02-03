@@ -25,7 +25,7 @@ are maintained and you can call them. It expects `arguments` in the same format 
 
 ## Installation
 ```sh
-npm install --save sails-model-new
+$ npm install --save sails-model-new
 ```
 
 ## Setup
