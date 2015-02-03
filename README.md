@@ -11,15 +11,15 @@ It initializes new sails model instance while maintaining the current scope. It 
 
 All model instance methods such as : 
 
-- `[validate](http://sailsjs.org/#/documentation/reference/waterline/records/validate.html)`
+- [validate](http://sailsjs.org/#/documentation/reference/waterline/records/validate.html)
 
-- `[save()](http://sailsjs.org/#/documentation/reference/waterline/records/save.html)`
+- [save()](http://sailsjs.org/#/documentation/reference/waterline/records/save.html)
 
-- `[toJSON()](http://sailsjs.org/#/documentation/reference/waterline/records/toJSON.html)`
+- [toJSON()](http://sailsjs.org/#/documentation/reference/waterline/records/toJSON.html)
 
-- `[toObject()](http://sailsjs.org/#/documentation/reference/waterline/records/toObject.html)`
+- [toObject()](http://sailsjs.org/#/documentation/reference/waterline/records/toObject.html)
 
-- `[destroy()](http://sailsjs.org/#/documentation/reference/waterline/models/destroy.html)` 
+- [destroy()](http://sailsjs.org/#/documentation/reference/waterline/models/destroy.html) 
 
 are maintained and you can call them. It expects `arguments` in the same format as `Model.create`.
 
