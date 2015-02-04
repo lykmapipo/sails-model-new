@@ -16,3 +16,4 @@ test
 *.swm
 .jshintrc
 .editorconfig
+doc.html
