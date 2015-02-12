@@ -9,7 +9,7 @@ sails-model-new
 
 It initializes new sails model instance while maintaining the current scope. It extend sails model with class/static `new` method which will create a new model instance without persist it.
 
-It also allow for `custom validation error messages` to be defined. If any `ValidationError` found by invoking `validate()` on the instance, all custom validation error message will be available on `error.Errors` available in your `validate callback`.
+It also allow for `custom validation error messages` to be defined. If any `ValidationError` found by invoking `validate()` on the instance, all custom validation error message will be available on `error.Errors` of your `validate callback`.[check validation setup](https://github.com/lykmapipo/sails-model-new#validation-usage)
 
 All model instance methods such as : 
 
@@ -147,7 +147,7 @@ user
         done();
     });
 ```
-*Note: If you want custom error messages at model static level consider using [sails-hook-validation](https://github.com/lykmapipo/sails-hook-validation). instance `validate()` opt to use `error.Errors` and not to re-create or remove any properties of error object so as to remain with sails legacy options*
+*Note: If you want custom error messages at model static level consider using [sails-hook-validation](https://github.com/lykmapipo/sails-hook-validation). sails-model-new `validate()` opt to use `error.Errors` and not to re-create or remove any properties of error object so as to remain with sails legacy options*
 
 ## Testing
 
