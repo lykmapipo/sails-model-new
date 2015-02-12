@@ -9,6 +9,8 @@ sails-model-new
 
 It initializes new sails model instance while maintaining the current scope. It extend sails model with class/static `new` method which will create a new model instance without persist it.
 
+It also allow for `custom validation error messages` to be defined. If any `ValidationError` found by invoking `validate()` on the instance, all custom validation error message will be available on `error.Errors` available in your `validate callback`.
+
 All model instance methods such as : 
 
 - [validate()](http://sailsjs.org/#/documentation/reference/waterline/records/validate.html)
@@ -91,6 +93,61 @@ user
         console.log(error);
     });
 ```
+## Validation usage
+- Add `validationMessages` static property in your sails model
+```js
+//this is example
+module.exports = {
+    attributes: {
+        username: {
+            type: 'string',
+            required: true
+        },
+        email: {
+            type: 'email',
+            required: true
+        }
+    },
+    //model validation messages definitions
+    validationMessages: { //hand for i18n & l10n
+        email: {
+            required: 'Email is required',
+            email: 'Provide valid email address',
+            unique: 'Email address is already taken'
+        },
+        username: {
+            required: 'Username is required'
+        }
+    }
+};
+```
+- Now if you invoke instance `validate` you will have all custom validation error at `error.Erros`
+```js
+//somewhere in your codes
+var user = User.new();
+user
+    .validate(function(error) {
+        //you will expect the following
+        //error to exist on error.Errors based on 
+        //your custom validation messages
+
+        expect(error.Errors.email).to.exist;
+
+        expect(error.Errors.email[0].message)
+            .to.equal(User.validationMessages.email.email);
+
+        expect(error.Errors.email[1].message)
+            .to.equal(User.validationMessages.email.required);
+
+
+        expect(error.Errors.username).to.exist;
+        expect(error.Errors.username[0].message)
+            .to.equal(User.validationMessages.username.required);
+
+        done();
+    });
+```
+*Note: If you want custom error messages at model static level consider using [sails-hook-validation](https://github.com/lykmapipo/sails-hook-validation). instance `validate()` opt to use `error.Errors` and not to re-create or remove any properties of error object so as to remain with sails legacy options*
 
 ## Testing
 
