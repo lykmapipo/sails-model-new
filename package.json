@@ -1,6 +1,6 @@
 {
     "name": "sails-model-new",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "Initialize new sails model instance while maintain the current scope",
     "main": "index.js",
     "scripts": {
@@ -34,5 +34,8 @@
         "mocha": "^2.1.0",
         "sails": "^0.10.5",
         "sails-disk": "^0.10.7"
+    },
+    "dependencies": {
+        "bluebird": "^2.9.8"
     }
 }

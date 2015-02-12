@@ -10,6 +10,7 @@ module.exports = {
         },
         email: {
             type: 'email',
+            unique: true,
             required: true
         }
     },

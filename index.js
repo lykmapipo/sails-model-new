@@ -3,6 +3,9 @@
  * @param  {Object} attributes model instance attributes to be set into new model
  * @return {Object}            a new instance of sails model
  */
+var Promise = require('bluebird');
+
+//TODO refactoring
 module.exports = function(attributes) {
     var instance;
 
@@ -29,21 +32,61 @@ module.exports = function(attributes) {
     //this is binded to the
     //context of the instance
     var newSave = function(callback) {
+        var self = this;
         //is this instance already persisted
-        if (this.id) {
+        if (self.id) {
             //if we are not using nodejs callback style
             //return promise
             if (!callback) {
-                return oldSave.call(this);
-            } else {
-                oldSave.call(this, callback);
+                return new Promise(function(resolve, reject) {
+                    return oldSave
+                        .call(self)
+                        .then(function(saved) {
+                            return resolve(saved);
+                        })
+                        .catch(function(error) {
+                            handleErrors
+                                .call(self, Collection, error, function(error, checked) {
+                                    return reject(error);
+                                });
+                        });
+                });
             }
-        } else {
-            //create new instance using Collection create
+            //proceed using callback style
+            else {
+                oldSave
+                    .call(self, function(error, saved) {
+                        handleErrors.call(saved, Collection, error, callback);
+                    });
+            }
+        }
+        //create new instance 
+        //using Collection.create
+        else {
+            //if we are not using nodejs callback style
+            //return promise
             if (!callback) {
-                return Collection.create(this);
-            } else {
-                Collection.create(this).exec(callback);
+                return new Promise(function(resolve, reject) {
+                    return Collection
+                        .create(self)
+                        .then(function(created) {
+                            return resolve(created);
+                        })
+                        .catch(function(error) {
+                            handleErrors
+                                .call(self, Collection, error, function(error, checked) {
+                                    return reject(error);
+                                });
+                        });
+                });
+            }
+            //proceed using callback style
+            else {
+                Collection
+                    .create(self)
+                    .exec(function(error, created) {
+                        handleErrors.call(created, Collection, error, callback);
+                    });
             }
 
         }
@@ -62,28 +105,12 @@ module.exports = function(attributes) {
 
     //prepare new validation method
     function validate(callback) {
+        var self = this;
         //call old validate
         //instance, values, presentOnly, 
         oldValidate
-            .call(this, function(error) {
-                //any validation error
-                //found?
-                if (error) {
-                    //process sails ValidationError and
-                    //attach Errors key in error object
-                    //as a place to lookup for our 
-                    //custom errors messages
-                    if (error.ValidationError) {
-                        error.Errors =
-                            validateCustom(Collection, error.ValidationError);
-                    }
-
-                    callback(error);
-                } else {
-                    //no error
-                    //return
-                    callback(null);
-                }
+            .call(self, function(error) {
+                handleErrors.call(self, Collection, error, callback);
             });
     };
 
@@ -164,3 +191,24 @@ function validateCustom(collection, validationError) {
 
     return customValidationMessages;
 };
+
+function handleErrors(collection, error, callback) {
+    //any validation error
+    //found?
+    if (error) {
+        //process sails ValidationError and
+        //attach Errors key in error object
+        //as a place to lookup for our 
+        //custom errors messages
+        if (error.ValidationError) {
+            error.Errors =
+                validateCustom(collection, error.ValidationError);
+        }
+
+        callback(error);
+    } else {
+        //no error
+        //return
+        callback(null, this);
+    }
+}

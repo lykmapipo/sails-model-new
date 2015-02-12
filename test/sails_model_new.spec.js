@@ -1,6 +1,8 @@
 var expect = require('chai').expect;
 var faker = require('faker');
 
+var email = faker.internet.email();
+
 describe('Model#new', function() {
 
     it('should have new static method', function(done) {
@@ -45,7 +47,7 @@ describe('Model#new', function() {
 
     it('should be able to save a model and accept node error first callback', function(done) {
         var username = faker.internet.userName();
-        var email = faker.internet.email();
+        // var email = faker.internet.email();
 
         var instance = User.new({
             username: username,
@@ -164,5 +166,52 @@ describe('Model#new', function() {
                 done();
             });
     });
+
+
+    describe('Model#new#database errors', function() {
+        it('should check for unique constraint and return custom message in callback style', function(done) {
+            var username = faker.internet.userName();
+            // var email = faker.internet.email();
+
+            var instance = User.new({
+                username: username,
+                email: email
+            });
+
+            instance
+                .save(function(error, user) {
+                    expect(error.Errors.email).to.exist;
+
+                    expect(error.Errors.email[0].message)
+                        .to.equal(User.validationMessages.email.unique);
+
+                    done();
+                });
+        });
+
+        it('should check for unique constraint and return custom message in promise style', function(done) {
+            var username = faker.internet.userName();
+            // var email = faker.internet.email();
+
+            var instance = User.new({
+                username: username,
+                email: email
+            });
+
+            instance
+                .save()
+                .catch(function(error) {
+                    expect(error.Errors.email).to.exist;
+
+                    expect(error.Errors.email[0].message)
+                        .to.equal(User.validationMessages.email.unique);
+
+                    done();
+                });
+        });
+
+
+    });
+
 
 });
