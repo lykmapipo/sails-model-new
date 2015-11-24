@@ -141,7 +141,7 @@ function validateCustom(collection, validationError) {
 
     //grab custom model defined
     //validation messages
-    var messages = collection.validationMessages;
+    var messages = collection.validationMessages || {};
 
     //grab field names
     //from the messages
