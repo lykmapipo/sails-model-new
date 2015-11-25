@@ -29,36 +29,6 @@ are maintained and you can call them. It expects `arguments` in the same format 
 $ npm install --save sails-model-new
 ```
 
-## Setup
-
-### In all models
-Including `sails-model-new` into all sails application model(s) by adding below config in the `models.js` found in sails application config directory.
-```js
-//in config/models.js
-//add 
-'new': require('sails-model-new');
-```
-
-### Specific model only
-Including `sails-model-new` into specific model as static attribute as shown below.
-```js
-//in your specific model
-//found in api/models/modelName.js
-
-module.exports = {
-    attributes: {
-        username: {
-            type: 'string'
-        },
-        email: {
-            type: 'email'
-        }
-    },
-    //add new in static scope of the model
-    'new': require('sails-model-new')
-};
-```
-
 ## Usage
 After you have finish setup, all model(s) or specific model(s) will 
 have `new` static method associate with them and you can use it as 

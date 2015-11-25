@@ -42,7 +42,7 @@ module.exports = function(sails) {
                 eventsToWaitFor.push('hook:pubsub:loaded');
             }
 
-            //apply validation hook
+            //apply 'model-new' patch
             sails
                 .after(eventsToWaitFor, function() {
                     patch();
