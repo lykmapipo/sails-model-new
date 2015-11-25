@@ -7,6 +7,9 @@ It initializes new sails model instance while maintaining the current scope. It 
 
 It also allow for `custom validation error messages` to be defined. If any `ValidationError` found by invoking `validate()` on the instance, all custom validation error message will be available on `error.Errors` of your `validate callback`. [check validation setup](https://github.com/lykmapipo/sails-model-new#validation-usage)
 
+*Note:* 
+- *This requires Sails v0.11.0+.  If v0.11.0+ isn't published to NPM yet, you'll need to install it via Github.*
+
 All model instance methods such as : 
 
 - [validate()](http://sailsjs.org/#/documentation/reference/waterline/records/validate.html)
