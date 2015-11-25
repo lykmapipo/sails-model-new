@@ -1,3 +1,5 @@
+'use strict';
+
 var expect = require('chai').expect;
 var faker = require('faker');
 
@@ -179,7 +181,7 @@ describe('Model#new', function() {
             });
 
             instance
-                .save(function(error, user) {
+                .save(function(error /*, user*/ ) {
                     expect(error.Errors.email).to.exist;
 
                     expect(error.Errors.email[0].message)

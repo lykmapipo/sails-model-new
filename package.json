@@ -4,7 +4,7 @@
     "description": "Initialize new sails model instance while maintain the current scope",
     "main": "index.js",
     "scripts": {
-        "test": "./node_modules/.bin/mocha --timeout 10000"
+        "test": "grunt test"
     },
     "repository": {
         "type": "git",
@@ -31,6 +31,10 @@
     "devDependencies": {
         "chai": "^1.10.0",
         "faker": "^2.1.2",
+        "grunt": "^0.4.5",
+        "grunt-contrib-jshint": "^0.11.3",
+        "grunt-mocha-test": "^0.12.7",
+        "jshint-stylish": "^2.1.0",
         "mocha": "^2.1.0",
         "sails": "^0.10.5",
         "sails-disk": "^0.10.7"

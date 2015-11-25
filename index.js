@@ -1,9 +1,104 @@
+'use strict';
+
 /**
  * @description create new sails model instance without persisting it
  * @param  {Object} attributes model instance attributes to be set into new model
  * @return {Object}            a new instance of sails model
  */
-var Promise = require('bluebird');
+var Promised = require('bluebird');
+
+
+/**
+ *
+ * @descriptions process validation error and mixin user defined errors
+ *               to produce friendly error messages.
+ *               For this to work a model must defined `validationMessages`
+ *               hash as static property.
+ *
+ * @param {Object} collection valid sails collection definition
+ * @param {Object} validationErrors a valid sails validation error object.
+ *
+ * @returns {Object} an object with friendly validation error conversions.
+ */
+function validateCustom(collection, validationError) {
+    //custom validation error storage
+    var customValidationMessages = {};
+
+    //grab custom model defined
+    //validation messages
+    var messages = collection.validationMessages || {};
+
+    //grab field names
+    //from the messages
+    var validationFields = Object.keys(messages);
+
+    //iterate over all our custom
+    //defined validation messages
+    //and process thrown sails ValidationError
+    //to model custom defined errors
+    validationFields
+        .forEach(function(validationField) {
+            //is there any field
+            //error(s) found in ValidationError
+            if (validationError[validationField]) {
+                //grab field errors from the
+                //sails validation error hash
+                var fieldErrors = validationError[validationField];
+
+                //iterate through each field
+                //sails validation error and
+                //convert them
+                //to custom model defined errors
+                fieldErrors
+                    .forEach(function(fieldError) {
+                        //grab friedly error message of
+                        //the defined rule which has an error
+                        var customMessage =
+                            messages[validationField][fieldError.rule];
+
+                        if (customMessage) {
+                            if (!(customValidationMessages[validationField] instanceof Array)) {
+                                customValidationMessages[validationField] = [];
+                            }
+
+                            //build friendly error message
+                            var newMessage = {
+                                'rule': fieldError.rule,
+                                'message': messages[validationField][fieldError.rule]
+                            };
+
+                            customValidationMessages[validationField].push(newMessage);
+                        }
+                    });
+
+            }
+        });
+
+    return customValidationMessages;
+}
+
+function handleErrors(collection, error, callback) {
+    /*jshint validthis:true*/
+
+    //any validation error
+    //found?
+    if (error) {
+        //process sails ValidationError and
+        //attach Errors key in error object
+        //as a place to lookup for our 
+        //custom errors messages
+        if (error.ValidationError) {
+            error.Errors =
+                validateCustom(collection, error.ValidationError);
+        }
+
+        callback(error);
+    } else {
+        //no error
+        //return
+        callback(null, this);
+    }
+}
 
 //TODO refactoring
 module.exports = function(attributes) {
@@ -38,7 +133,7 @@ module.exports = function(attributes) {
             //if we are not using nodejs callback style
             //return promise
             if (!callback) {
-                return new Promise(function(resolve, reject) {
+                return new Promised(function(resolve, reject) {
                     return oldSave
                         .call(self)
                         .then(function(saved) {
@@ -46,7 +141,7 @@ module.exports = function(attributes) {
                         })
                         .catch(function(error) {
                             handleErrors
-                                .call(self, Collection, error, function(error, checked) {
+                                .call(self, Collection, error, function(error /*, checked*/ ) {
                                     return reject(error);
                                 });
                         });
@@ -66,7 +161,7 @@ module.exports = function(attributes) {
             //if we are not using nodejs callback style
             //return promise
             if (!callback) {
-                return new Promise(function(resolve, reject) {
+                return new Promised(function(resolve, reject) {
                     return Collection
                         .create(self)
                         .then(function(created) {
@@ -74,7 +169,7 @@ module.exports = function(attributes) {
                         })
                         .catch(function(error) {
                             handleErrors
-                                .call(self, Collection, error, function(error, checked) {
+                                .call(self, Collection, error, function(error /*, checked*/ ) {
                                     return reject(error);
                                 });
                         });
@@ -105,6 +200,7 @@ module.exports = function(attributes) {
 
     //prepare new validation method
     function validate(callback) {
+        /*jshint validthis:true*/
         var self = this;
         //call old validate
         //instance, values, presentOnly, 
@@ -112,7 +208,7 @@ module.exports = function(attributes) {
             .call(self, function(error) {
                 handleErrors.call(self, Collection, error, callback);
             });
-    };
+    }
 
     //bind our new validate
     //to the instance
@@ -121,94 +217,3 @@ module.exports = function(attributes) {
     //return instance
     return instance;
 };
-
-
-/**
- *
- * @descriptions process validation error and mixin user defined errors
- *               to produce friendly error messages.
- *               For this to work a model must defined `validationMessages`
- *               hash as static property.
- *
- * @param {Object} collection valid sails collection definition
- * @param {Object} validationErrors a valid sails validation error object.
- *
- * @returns {Object} an object with friendly validation error conversions.
- */
-function validateCustom(collection, validationError) {
-    //custom validation error storage
-    var customValidationMessages = {};
-
-    //grab custom model defined
-    //validation messages
-    var messages = collection.validationMessages || {};
-
-    //grab field names
-    //from the messages
-    validationFields = Object.keys(messages);
-
-    //iterate over all our custom
-    //defined validation messages
-    //and process thrown sails ValidationError
-    //to model custom defined errors
-    validationFields
-        .forEach(function(validationField) {
-            //is there any field
-            //error(s) found in ValidationError
-            if (validationError[validationField]) {
-                //grab field errors from the
-                //sails validation error hash
-                var fieldErrors = validationError[validationField];
-
-                //iterate through each field
-                //sails validation error and
-                //convert them
-                //to custom model defined errors
-                fieldErrors
-                    .forEach(function(fieldError) {
-                        //grab friedly error message of
-                        //the defined rule which has an error
-                        var customMessage =
-                            messages[validationField][fieldError.rule];
-
-                        if (customMessage) {
-                            if (!(customValidationMessages[validationField] instanceof Array)) {
-                                customValidationMessages[validationField] = new Array();
-                            }
-
-                            //build friendly error message
-                            var newMessage = {
-                                'rule': fieldError.rule,
-                                'message': messages[validationField][fieldError.rule]
-                            };
-
-                            customValidationMessages[validationField].push(newMessage);
-                        }
-                    });
-
-            }
-        });
-
-    return customValidationMessages;
-};
-
-function handleErrors(collection, error, callback) {
-    //any validation error
-    //found?
-    if (error) {
-        //process sails ValidationError and
-        //attach Errors key in error object
-        //as a place to lookup for our 
-        //custom errors messages
-        if (error.ValidationError) {
-            error.Errors =
-                validateCustom(collection, error.ValidationError);
-        }
-
-        callback(error);
-    } else {
-        //no error
-        //return
-        callback(null, this);
-    }
-}
