@@ -19,6 +19,8 @@
         "sails-hook",
         "model",
         "instance",
+        "custom",
+        "validation",
         "new",
         "build",
         "initialize"
