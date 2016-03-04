@@ -133,6 +133,7 @@ describe('Model#new', function() {
 
     it('should be able to return custom error messages on validation', function(done) {
         var user = User.new();
+        var validatePromise = user.validate();
 
         user
             .validate(function(error) {
@@ -149,23 +150,39 @@ describe('Model#new', function() {
                 expect(error.Errors.username[0].message)
                     .to.equal(User.validationMessages.username.required);
 
-                done();
+                validatePromise.catch(function(error) {
+                    expect(error.Errors.email).to.exist;
+
+                    expect(error.Errors.email[0].message)
+                        .to.equal(User.validationMessages.email.email);
+
+                    expect(error.Errors.email[1].message)
+                        .to.equal(User.validationMessages.email.required);
+
+
+                    expect(error.Errors.username).to.exist;
+                    expect(error.Errors.username[0].message)
+                        .to.equal(User.validationMessages.username.required);
+
+                    done();
+                });
             });
     });
 
     it('should not throw error if all validation conditions passed', function(done) {
         var email = faker.internet.email();
         var username = faker.internet.userName();
+        var user = User.new({email: email, username: username});
+        var validatePromise = user.validate();
 
-        User
-            .new({
-                email: email,
-                username: username
-            })
+        user
             .validate(function(error, user) {
                 expect(error).to.be.null;
                 expect(user).to.not.be.null;
-                done();
+                validatePromise.then(function(user) {
+                    expect(user).to.not.be.null;
+                    done();
+                });
             });
     });
 
